@@ -1,0 +1,31 @@
+import cp.
+
+main => go.
+
+go =>
+
+   % decision variables
+   N = 5,
+   Xs = new_list(N),
+   Xs :: 0..9,
+   
+   % numbers to guess
+   L1 = [4,7,2,9,1],
+   L2 = [9,4,6,8,7],
+   L3 = [3,1,8,7,2],
+   L4 = [1,5,7,3,9],
+   
+   % given constraints
+   sum([Xs[I] #= L1[J] : I in 1..N, J in 1..N, J #!= I]) #= 1, % one correct number in wrong position
+   sum([Xs[J] #!= L1[J] : J in 1..N]) #= 5,                    % all wrong positions
+   sum([Xs[I] #= L2[J] : I in 1..N, J in 1..N, J #!= I]) #= 1, % one correct number in wrong position
+   sum([Xs[J] #!= L2[J] : J in 1..N]) #= 5,                    % all wrong positions
+   sum([Xs[J] #= L3[J] : J in 1..N]) #= 1,                     % two correct numbers, one in right position
+   sum([Xs[I] #= L3[J] : I in 1..N, J in 1..N, J #!= I]) #= 1, %                  and one in wrong position
+   sum([Xs[J] #= L4[J] : J in 1..N]) #= 2,                     % two correct numbers in right positions
+   all_different(Xs),
+
+   % solve and print
+   Res = solve_all([Xs]),
+   writeln(Res), % all solutions
+   nl.
