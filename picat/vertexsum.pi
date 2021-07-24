@@ -1,0 +1,43 @@
+import cp.
+
+/*
+From T. Gower's tweet: https://twitter.com/wtgowers/status/1410688202260811781
+
+The numbers 1 to 8 are placed on the vertices of a cube in such a way that
+the total on the vertices of each face is the same.
+What is the total on each face?
+*/
+
+main => go.
+
+go =>
+
+   % decision variables
+   N = 8,
+   Xs = new_list(8),
+   
+   % given constraints
+   Xs :: 1..8,
+   sum([Xs[1],Xs[2],Xs[3],Xs[4]]) #= sum([Xs[5],Xs[6],Xs[7],Xs[8]]),
+   sum([Xs[1],Xs[2],Xs[3],Xs[4]]) #= sum([Xs[1],Xs[4],Xs[5],Xs[6]]),
+   sum([Xs[1],Xs[2],Xs[3],Xs[4]]) #= sum([Xs[2],Xs[3],Xs[7],Xs[8]]),
+   sum([Xs[1],Xs[2],Xs[3],Xs[4]]) #= sum([Xs[3],Xs[4],Xs[5],Xs[8]]),
+   sum([Xs[1],Xs[2],Xs[3],Xs[4]]) #= sum([Xs[1],Xs[2],Xs[7],Xs[6]]),
+   all_different(Xs),
+
+   % solve and print
+   Res = solve_all([Xs]),
+   
+   % All solutions
+   foreach (I in Res)
+      println(I[1])
+   end,
+   I = Res[1],
+   J = I[1],
+   
+   % No. of solutions
+   println(Res.length),
+   
+   % The sum
+   println(sum([J[K] : K in 1..4])),
+   nl.
