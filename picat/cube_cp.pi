@@ -1,0 +1,47 @@
+import cp.
+
+/*
+https://puzzling.stackexchange.com/questions/109448/numbers-with-minimal-sum-at-the-vertices-of-a-cube
+
+The eight vertices of a cube are marked with numbers from 1 to 8 such that
+the sum of any three numbers on any face is not less than 10.
+What is the minimum sum of the four numbers on a face?
+*/
+
+main => go.
+
+go =>
+
+   % decision variables
+   N = 8,
+   Xs = new_list(N),
+   
+   % given constraints
+   Xs :: 1..8,
+
+   % the vertex numbers for each face
+   F1 = [1,2,3,4],
+   F2 = [5,6,7,8],
+   F3 = [1,4,5,8],
+   F4 = [2,3,6,7],
+   F5 = [1,2,5,6],
+   F6 = [3,4,7,8],
+
+   % constraint that sum of any three vertices of each face is at least 10
+   foreach (J in 1..4),
+       sum([Xs[F1[I]] : I in 1..4, I #!= J]) #> 9,
+       sum([Xs[F2[I]] : I in 1..4, I #!= J]) #> 9,
+       sum([Xs[F3[I]] : I in 1..4, I #!= J]) #> 9,
+       sum([Xs[F4[I]] : I in 1..4, I #!= J]) #> 9,
+       sum([Xs[F5[I]] : I in 1..4, I #!= J]) #> 9,
+       sum([Xs[F6[I]] : I in 1..4, I #!= J]) #> 9,
+   end,
+   
+   all_different(Xs),
+
+   % solve and print - minimizing for any one face
+   solve($[min(sum([Xs[I] : I in 1..4]))], Xs),
+   println(Xs),
+   printf("Minimum sum is %d", sum([Xs[I] : I in 1..4])),
+   
+   nl.
