@@ -1,0 +1,36 @@
+import cp.
+
+/*
+https://brilliant.org/problems/the-mystic-circle/
+
+Arrange the numbers 1-32, inclusive, in a circle such that
+the sum of any two adjacent numbers in the circular chain is a perfect square. 
+*/
+
+main => go.
+
+go =>
+
+   % decision variables
+   N = 32,
+   Xs = new_list(N),
+   
+   % given constraints
+   Xs :: 1..N,
+   Sq = [I**2 : I in 2..7],
+   
+   % fix one number, to avoid rotation
+   Xs[1] #= 1, 
+   foreach (I in 1..N-1),
+       sum([(Xs[I+1]+Xs[I]) #= Sq[J] : J in 1..Sq.length]) #= 1, 
+   end,
+   sum([(Xs[N]+Xs[1]) #= Sq[J] : J in 1..Sq.length]) #= 1, 
+   all_different(Xs),
+
+   % solve and print - minimizing for any one face
+   Res = solve_all(Xs),
+
+   foreach (R in Res),
+      println(R),
+   end,
+   nl.
